@@ -45,7 +45,6 @@ function App() {
   useEffect(() => {
     if (state.isAnimating) {
       const timeout = setTimeout(() => {
-        const slots = generateSlotsArray(config.slotCols, config.slotRows);
         setState({
           ...state,
           slots: generateSlotsArray(config.slotCols, config.slotRows),
