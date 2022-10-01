@@ -1,0 +1,38 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.slot-machine {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slots-view {
+  position: relative;
+  display: flex;
+  width: 90vw;
+  height: 402px;
+  overflow: hidden;
+}
+
+.slot-column {
+  width: calc(100% / 3);
+}
+
+.slot-item {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #000;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
