@@ -21,6 +21,12 @@
 
 .slot-column {
   width: calc(100% / 3);
+  animation-fill-mode: forwards;
+}
+
+.slot-column.animating {
+  animation-duration: 1s;
+  animation-name: slot;
 }
 
 .slot-item {
@@ -45,4 +51,38 @@
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
+}
+
+/* animate slot column with keyframe */
+@keyframes slot {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-400px);
+  }
+  20% {
+    transform: translateY(-800px);
+  }
+  30% {
+    transform: translateY(-1200px);
+  }
+  40% {
+    transform: translateY(-1600px);
+  }
+  50% {
+    transform: translateY(-2000px);
+  }
+  60% {
+    transform: translateY(-2400px);
+  }
+  70% {
+    transform: translateY(-2800px);
+  }
+  80% {
+    transform: translateY(-3200px);
+  }
+  100% {
+    transform: translateY(-3680px);
+  }
 }

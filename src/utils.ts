@@ -15,3 +15,7 @@ export function generateSlotsArray(columns: number, rows: number): TSlots {
 export function hasWon(result: TSlot[]): boolean {
   return result.every((slot) => slot === result[0]);
 }
+
+export function getLastSlots(slots: TSlots): number[] {
+  return slots.map((column) => column[column.length - 1])
+}

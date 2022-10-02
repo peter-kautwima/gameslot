@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { TSlot, TSlots } from "./types";
-import { generateSlotsArray, hasWon, randomElement } from "./utils";
+import { generateSlotsArray, getLastSlots, hasWon, randomElement } from "./utils";
 
 type TState = {
-  isIdle: boolean;
-  winners?: TSlot[],
   slots?: TSlots;
   isAnimating: boolean;
 };
@@ -18,7 +16,6 @@ const config = {
 
 function App() {
   const [state, setState] = useState<TState>({
-    isIdle: true,
     isAnimating: false
   });
 
@@ -31,13 +28,9 @@ function App() {
   }, []);
 
   const handlePlay = useCallback(() => {
-    const winners = state.slots?.map((slot) => randomElement(slot));
-
     setState({
       ...state,
-      isIdle: false,
-      winners,
-      isAnimating: true
+      isAnimating: true,
     });
   }, [setState, state])
 
@@ -47,7 +40,6 @@ function App() {
       const timeout = setTimeout(() => {
         setState({
           ...state,
-          slots: generateSlotsArray(config.slotCols, config.slotRows),
           isAnimating: false,
         });
       }, config.animationDuration);
@@ -59,19 +51,13 @@ function App() {
   return (
     <div className="App">
       <div className="slot-machine">
-      {hasWon(state.winners || []) && (
+        {state.slots && hasWon(getLastSlots(state.slots)) && (
         <div className="winner">You won!</div>
       )}
         <div className="slots-view">
           {
-            state.winners ? state.winners.map((winner, index) => (
-              <div className="slot-column" key={index}>
-                  <div className="slot-item" key={index}>
-                    {winner}
-                  </div>
-              </div>
-            )) : state.slots?.map((col, index) => (
-              <div className="slot-column" key={index}>
+            state.slots?.map((col, index) => (
+              <div className={`slot-column ${state.isAnimating && 'animating'}`} key={index}>
                 {col.map((item, index) => (
                   <div className="slot-item" key={index}>
                     {item}
