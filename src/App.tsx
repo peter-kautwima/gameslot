@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
+import { extractPokemonImages, getPokemonListing } from "./pokemon";
 import { TSlot, TSlots } from "./types";
 import { generateSlotsArray, getLastSlots, hasWon, randomElement } from "./utils";
 
@@ -19,6 +20,8 @@ function App() {
     isAnimating: false
   });
 
+  const [images, setImages] = useState<string[]>([]);
+
   useEffect(() => {
     const slots = generateSlotsArray(config.slotCols, config.slotRows);
     setState({
@@ -33,6 +36,17 @@ function App() {
       isAnimating: true,
     });
   }, [setState, state])
+
+  // Fetch pokenames from API
+  useEffect(() => {
+    (async () => {
+      const pokemon = await getPokemonListing()
+      const images = pokemon ? extractPokemonImages(pokemon) : []
+      console.log('state', state);
+      
+      setImages(images)
+    })()
+  }, []);
 
   // Stop animation after animationDuration and regenerate slots
   useEffect(() => {
@@ -60,7 +74,7 @@ function App() {
               <div className={`slot-column ${state.isAnimating && 'animating'}`} key={index}>
                 {col.map((item, index) => (
                   <div className="slot-item" key={index}>
-                    {item}
+                    <img src={images[item]} alt={item.toString()} />
                   </div>
                 ))}
               </div>
