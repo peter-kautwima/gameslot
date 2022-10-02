@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { TSlot, TSlots } from "./types";
-import { generateSlotsArray, randomElement } from "./utils";
+import { generateSlotsArray, hasWon, randomElement } from "./utils";
 
 type TState = {
   isIdle: boolean;
@@ -54,11 +54,14 @@ function App() {
     }
 
     // return timeout.clear
-  }, [state.isAnimating, setState, state]);
+  }, [setState, state]);
 
   return (
     <div className="App">
       <div className="slot-machine">
+      {hasWon(state.winners || []) && (
+        <div className="winner">You won!</div>
+      )}
         <div className="slots-view">
           {
             state.winners ? state.winners.map((winner, index) => (
@@ -78,7 +81,7 @@ function App() {
             ))
           }
         </div>
-        <button onClick={handlePlay}>Play</button>
+        <button onClick={handlePlay}>Spin</button>
       </div>
     </div>
   );

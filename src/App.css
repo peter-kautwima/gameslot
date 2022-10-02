@@ -36,3 +36,13 @@
   border-radius: 5px;
   margin-bottom: 10px;
 }
+
+.winner {
+  background: #bada55;
+  border: 1px solid black;
+  padding: 1rem;
+  color: black;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
