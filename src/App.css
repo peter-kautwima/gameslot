@@ -40,6 +40,7 @@
   color: #fff;
   background-color: #000;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .slot-item img {
@@ -86,6 +87,6 @@
     transform: translateY(-3200px);
   }
   100% {
-    transform: translateY(-3680px);
+    transform: translateY(-3600px);
   }
 }

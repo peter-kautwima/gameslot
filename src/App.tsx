@@ -37,30 +37,22 @@ function App() {
     });
   }, [setState, state])
 
+  const handleReset = useCallback(() => {
+    setState({
+      ...state,
+      slots: generateSlotsArray(config.slotCols, config.slotRows),
+      isAnimating: false,
+    });
+  }, [setState, state])
+
   // Fetch pokenames from API
   useEffect(() => {
     (async () => {
       const pokemon = await getPokemonListing()
       const images = pokemon ? extractPokemonImages(pokemon) : []
-      console.log('state', state);
-      
       setImages(images)
     })()
   }, []);
-
-  // Stop animation after animationDuration and regenerate slots
-  useEffect(() => {
-    if (state.isAnimating) {
-      const timeout = setTimeout(() => {
-        setState({
-          ...state,
-          isAnimating: false,
-        });
-      }, config.animationDuration);
-    }
-
-    // return timeout.clear
-  }, [setState, state]);
 
   return (
     <div className="App">
@@ -81,7 +73,11 @@ function App() {
             ))
           }
         </div>
-        <button onClick={handlePlay}>Spin</button>
+        {state.isAnimating ? (
+          <button onClick={handleReset}>Play again</button>
+        ) : (
+          <button onClick={handlePlay}>Spin</button>
+        )}
       </div>
     </div>
   );
