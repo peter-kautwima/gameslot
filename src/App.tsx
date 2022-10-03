@@ -1,8 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
+import Wallet from "./components/wallet/wallet";
 import { extractPokemonImages, getPokemonListing } from "./pokemon";
 import { TSlot, TSlots } from "./types";
-import { generateSlotsArray, getLastSlots, hasWon, randomElement } from "./utils";
+import {
+  generateSlotsArray,
+  getLastSlots,
+  hasWon,
+  randomElement,
+} from "./utils";
 
 type TState = {
   slots?: TSlots;
@@ -12,12 +18,12 @@ type TState = {
 const config = {
   slotCols: 3,
   slotRows: 10,
-  animationDuration: 4000
-}
+  animationDuration: 4000,
+};
 
 function App() {
   const [state, setState] = useState<TState>({
-    isAnimating: false
+    isAnimating: false,
   });
 
   const [images, setImages] = useState<string[]>([]);
@@ -35,7 +41,7 @@ function App() {
       ...state,
       isAnimating: true,
     });
-  }, [setState, state])
+  }, [setState, state]);
 
   const handleReset = useCallback(() => {
     setState({
@@ -43,42 +49,52 @@ function App() {
       slots: generateSlotsArray(config.slotCols, config.slotRows),
       isAnimating: false,
     });
-  }, [setState, state])
+  }, [setState, state]);
 
   // Fetch pokenames from API
   useEffect(() => {
     (async () => {
-      const pokemon = await getPokemonListing()
-      const images = pokemon ? extractPokemonImages(pokemon) : []
-      setImages(images)
-    })()
+      const pokemon = await getPokemonListing();
+      const images = pokemon ? extractPokemonImages(pokemon) : [];
+      setImages(images);
+    })();
   }, []);
 
   return (
     <div className="App">
       <div className="bg-image" />
       <div className="slot-machine">
-        {state.slots && hasWon(getLastSlots(state.slots)) && (
-        <div className="winner">You won!</div>
-      )}
-        <div className="slots-view">
-          {
-            state.slots?.map((col, index) => (
-              <div className={`slot-column ${state.isAnimating && 'animating'}`} key={index}>
-                {col.map((item, index) => (
-                  <div className="slot-item" key={index}>
-                    <img src={images[item]} alt={item.toString()} />
-                  </div>
-                ))}
-              </div>
-            ))
-          }
-        </div>
-        {state.isAnimating ? (
-          <button onClick={handleReset}>Play again</button>
-        ) : (
-          <button onClick={handlePlay}>Spin</button>
+        {!state.isAnimating && state.slots && hasWon(getLastSlots(state.slots)) && (
+          <div className="winner">You won!</div>
         )}
+        <div className="slots-view">
+          {state.slots?.map((col, index) => (
+            <div
+              className={`slot-column ${state.isAnimating && "animating"}`}
+              key={index}
+            >
+              {col.map((item, index) => (
+                <div className="slot-item" key={index}>
+                  <img src={images[item]} alt={item.toString()} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="controls">
+          <div className="bet">
+            <input type="number" name='bet' />
+            <button>Bet</button>
+          </div>
+          
+          <Wallet balance={1000} />
+          <Wallet balance={1000} />
+          {state.isAnimating ? (
+            <button onClick={handleReset}>Play again</button>
+          ) : (
+            <button className="spin-button" onClick={handlePlay}>Spin</button>
+          )}
+        </div>
       </div>
     </div>
   );

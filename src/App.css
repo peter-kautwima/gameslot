@@ -67,6 +67,16 @@
   font-weight: bold;
 }
 
+.controls {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.spin-button {
+  background: red;
+}
+
 /* animate slot column with keyframe */
 @keyframes slot {
   0% {
