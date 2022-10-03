@@ -56,6 +56,7 @@ function App() {
 
   return (
     <div className="App">
+      <div className="bg-image" />
       <div className="slot-machine">
         {state.slots && hasWon(getLastSlots(state.slots)) && (
         <div className="winner">You won!</div>

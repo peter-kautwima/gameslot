@@ -5,10 +5,21 @@
   justify-content: center;
 }
 
+.bg-image {
+  background-image: url('./assets/bg.jpg');
+  background-size: cover;
+  filter: blur(10px);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1;
+}
+
 .slot-machine {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 10;
 }
 
 .slots-view {
@@ -38,7 +49,6 @@
   font-size: 6rem;
   font-weight: bold;
   color: #fff;
-  background-color: #000;
   border-radius: 5px;
   overflow: hidden;
 }
