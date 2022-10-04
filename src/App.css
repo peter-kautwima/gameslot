@@ -65,13 +65,13 @@
 }
 
 .winner {
-  background: #bada55;
-  border: 1px solid black;
+  background: gold;
   padding: 1rem;
   color: black;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
+  z-index: 10;
 }
 
 .controls {
