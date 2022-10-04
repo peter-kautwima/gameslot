@@ -13,7 +13,8 @@ import {
 
 type TState = {
   slots?: TSlots;
-  isAnimating: boolean;
+  result?: TSlot[];
+  isSpinning: boolean;
 };
 
 const config = {
@@ -24,11 +25,14 @@ const config = {
 
 function App() {
   const [state, setState] = useState<TState>({
-    isAnimating: false,
+    isSpinning: false,
   });
 
   const [images, setImages] = useState<string[]>([]);
 
+  /**
+   * Initial mount
+   */
   useEffect(() => {
     const slots = generateSlotsArray(config.slotCols, config.slotRows);
     setState({
@@ -38,17 +42,20 @@ function App() {
   }, []);
 
   const handlePlay = useCallback(() => {
+    const result = state.slots ? getLastSlots(state.slots) : [];
     setState({
       ...state,
-      isAnimating: true,
+      result,
+      isSpinning: true,
     });
   }, [setState, state]);
 
   const handleReset = useCallback(() => {
+    const slots = generateSlotsArray(config.slotCols, config.slotRows)
     setState({
       ...state,
-      slots: generateSlotsArray(config.slotCols, config.slotRows),
-      isAnimating: false,
+      slots,
+      isSpinning: false,
     });
   }, [setState, state]);
 
@@ -69,13 +76,13 @@ function App() {
     <div className="App">
       <div className="bg-image" />
       <div className="slot-machine">
-        {!state.isAnimating && state.slots && hasWon(getLastSlots(state.slots)) && (
+        {!state.isSpinning && state.result && hasWon(state.result) && (
           <div className="winner">You won!</div>
         )}
         <div className="slots-view">
           {state.slots?.map((col, index) => (
             <div
-              className={`slot-column ${state.isAnimating && "animating"}`}
+              className={`slot-column ${state.isSpinning && "animating"}`}
               key={index}
             >
               {col.map((item, index) => (
@@ -94,7 +101,7 @@ function App() {
             <BetForm onChange={handleBetChange} />
           </div>
           <div>
-            {state.isAnimating ? (
+            {state.isSpinning ? (
               <button className="play-again" onClick={handleReset}>Play again</button>
             ) : (
               <button className="spin-button" onClick={handlePlay}>Spin</button>
