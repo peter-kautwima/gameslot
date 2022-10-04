@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent } from "react";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useRef } from "react";
 import styles from "./bet-form.module.css";
 
 type Props = {
@@ -6,8 +6,15 @@ type Props = {
 };
 
 const BetForm: FC<Props> = ({ onChange }) => {
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [])
+  
   return (
     <input
+      ref={inputRef}
       className={styles.root}
       type="number"
       name="bet"
