@@ -1,0 +1,13 @@
+.root {
+  width: 100%;
+  position: relative;
+  padding: 1rem;
+  border: 3px solid #fff;
+  background: rgba(0, 0, 0, .5);
+  border-radius: 4px;
+  color: #fff; 
+}
+
+.root::placeholder {
+  color: #fff;
+}

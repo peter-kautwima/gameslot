@@ -28,11 +28,18 @@
   width: 90vw;
   height: 402px;
   overflow: hidden;
+  border: 3px solid gold;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .slot-column {
   width: calc(100% / 3);
   animation-fill-mode: forwards;
+  border-right: 3px solid gold;
+}
+
+.slot-column:last-child {
+  border: none;
 }
 
 .slot-column.animating {
@@ -69,12 +76,27 @@
 
 .controls {
   margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+.controls > div {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.controls button {
+  padding: 1rem;
 }
 
 .spin-button {
   background: red;
+  border: 3px solid gold;
+  display: block;
+  width: 100%;
 }
 
 /* animate slot column with keyframe */

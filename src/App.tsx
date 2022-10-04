@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import "./App.css";
+import BetForm from "./components/bet-form/bet-form";
 import Wallet from "./components/wallet/wallet";
 import { extractPokemonImages, getPokemonListing } from "./pokemon";
 import { TSlot, TSlots } from "./types";
@@ -60,6 +61,10 @@ function App() {
     })();
   }, []);
 
+  const handleBetChange = (event: FormEvent) => {
+    console.log(event);
+  }
+
   return (
     <div className="App">
       <div className="bg-image" />
@@ -82,18 +87,19 @@ function App() {
           ))}
         </div>
         <div className="controls">
-          <div className="bet">
-            <input type="number" name='bet' />
-            <button>Bet</button>
+          <div>
+            <Wallet balance={1000} />
           </div>
-          
-          <Wallet balance={1000} />
-          <Wallet balance={1000} />
-          {state.isAnimating ? (
-            <button onClick={handleReset}>Play again</button>
-          ) : (
-            <button className="spin-button" onClick={handlePlay}>Spin</button>
-          )}
+          <div>
+            <BetForm onChange={handleBetChange} />
+          </div>
+          <div>
+            {state.isAnimating ? (
+              <button onClick={handleReset}>Play again</button>
+            ) : (
+              <button className="spin-button" onClick={handlePlay}>Spin</button>
+            )}
+          </div>
         </div>
       </div>
     </div>
