@@ -21,7 +21,7 @@ type TState = {
 const config = {
   slotCols: 3,
   slotRows: 10,
-  animationDuration: 1000,
+  animationDuration: 900, // reduce this by 100ms to get the actual animation duration. CSS is 1s (1000ms)
   winMultiplier: 10,
 };
 
@@ -48,21 +48,16 @@ function App() {
 
   const handlePlay = useCallback(() => {
     const result = state.slots ? getLastSlots(state.slots) : [];
+    const slots = generateSlotsArray(config.slotCols, config.slotRows)
     setState({
       ...state,
       result,
+      slots,
       isSpinning: true,
     });
   }, [setState, state]);
 
-  const handleReset = useCallback(() => {
-    const slots = generateSlotsArray(config.slotCols, config.slotRows)
-    setState({
-      ...state,
-      slots,
-      isSpinning: false,
-    });
-  }, [setState, state]);
+  const handleDepositFunds = console.log
 
   // Fetch pokenames from API
   useEffect(() => {
@@ -105,19 +100,27 @@ function App() {
           <div className="winner">You won!</div>
         )}
         <div className="slots-view">
-          {state.slots?.map((col, index) => (
-            <div
-              className={`slot-column ${state.isSpinning && "animating"}`}
-              key={index}
-            >
-              {col.map((item, index) => (
-                <div className="slot-item" key={index}>
-                  <img src={images[item]} alt={item.toString()} />
-                </div>
-              ))}
-            </div>
-          ))}
+          {/* Display images from results */}
+          {
+            state.result && !state.isSpinning ? state.result.map((item, index) => (
+              <div className="slot-item" key={index}>
+                <img src={images[item]} alt={item.toString()} />
+              </div>
+            )) : state.slots?.map((col, index) => (
+              <div
+                className={`slot-column ${state.isSpinning && "animating"}`}
+                key={index}
+              >
+                {col.map((item, index) => (
+                  <div className="slot-item" key={index}>
+                    <img src={images[item]} alt={item.toString()} />
+                  </div>
+                ))}
+              </div>
+            ))
+          }
         </div>
+
         <div className="controls">
           <div>
             <Wallet balance={state.balance} />
@@ -126,8 +129,8 @@ function App() {
             <BetForm onChange={handleBetChange} />
           </div>
           <div>
-            {state.isSpinning ? (
-              <button className="play-again" onClick={handleReset}>Play again</button>
+            {state.balance === 0 ? (
+              <button className="deposit-funds" onClick={handleDepositFunds}>Deposit Funds</button>
             ) : (
               <button className="spin-button" onClick={handlePlay}>Spin</button>
             )}
