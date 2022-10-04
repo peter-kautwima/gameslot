@@ -21,7 +21,8 @@ type TState = {
 const config = {
   slotCols: 3,
   slotRows: 10,
-  animationDuration: 4000,
+  animationDuration: 1000,
+  winMultiplier: 10,
 };
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
     isSpinning: false,
     balance: 10000
   });
+
+  const [betAmount, setBetAmount] = useState(0);
 
   const [images, setImages] = useState<string[]>([]);
 
@@ -70,9 +73,29 @@ function App() {
     })();
   }, []);
 
-  const handleBetChange = (event: FormEvent) => {
-    console.log(event);
+  const handleBetChange = (event: any) => {
+    setBetAmount(event.target.value)
   }
+
+  /**
+   * Spin animation and wallet balance calculation
+   */
+  useEffect(() => {
+    if (state.isSpinning) {
+      // disable-copilot
+      setTimeout(() => {
+        if (state.result) {
+          const won = hasWon(state.result);
+          const balance = won ? state.balance + (betAmount * config.winMultiplier) : state.balance - betAmount;
+          setState({
+            ...state,
+            isSpinning: false,
+            balance,
+          });
+        }
+      }, config.animationDuration);
+    }
+  }, [state.isSpinning])
 
   return (
     <div className="App">

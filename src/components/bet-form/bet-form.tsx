@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, FormEvent, useEffect, useRef } from "react";
 import styles from "./bet-form.module.css";
 
 type Props = {
-  onChange: (event: FormEvent) => void;
+  onChange: (event: any) => void; // @todo any type
 };
 
 const BetForm: FC<Props> = ({ onChange }) => {
