@@ -95,7 +95,7 @@ function App() {
           </div>
           <div>
             {state.isAnimating ? (
-              <button onClick={handleReset}>Play again</button>
+              <button className="play-again" onClick={handleReset}>Play again</button>
             ) : (
               <button className="spin-button" onClick={handlePlay}>Spin</button>
             )}

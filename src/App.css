@@ -91,6 +91,9 @@
 .controls button {
   padding: 1rem;
 }
+.play-again {
+  width: 100%;
+}
 
 .spin-button {
   background: red;
