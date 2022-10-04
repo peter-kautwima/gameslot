@@ -1,4 +1,6 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import ReactConfetti from "react-confetti";
+import { useWindowSize } from "react-use";
 import "./App.css";
 import BetForm from "./components/bet-form/bet-form";
 import Wallet from "./components/wallet/wallet";
@@ -30,6 +32,8 @@ function App() {
     isSpinning: false,
     balance: 10000
   });
+
+  const { width, height } = useWindowSize()
 
   const [betAmount, setBetAmount] = useState(0);
 
@@ -97,7 +101,13 @@ function App() {
       <div className="bg-image" />
       <div className="slot-machine">
         {!state.isSpinning && state.result && hasWon(state.result) && (
-          <div className="winner">You won!</div>
+          <>
+            <ReactConfetti
+              width={width}
+              height={height}
+            />
+            <div className="winner">You won!</div>
+          </>
         )}
         <div className="slots-view">
           {/* Display images from results */}
