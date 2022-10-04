@@ -30,10 +30,10 @@ const config = {
 function App() {
   const [state, setState] = useState<TState>({
     isSpinning: false,
-    balance: 10000
+    balance: 10000,
   });
 
-  const { width, height } = useWindowSize()
+  const { width, height } = useWindowSize();
 
   const [betAmount, setBetAmount] = useState(0);
 
@@ -52,7 +52,7 @@ function App() {
 
   const handlePlay = useCallback(() => {
     const result = state.slots ? getLastSlots(state.slots) : [];
-    const slots = generateSlotsArray(config.slotCols, config.slotRows)
+    const slots = generateSlotsArray(config.slotCols, config.slotRows);
     setState({
       ...state,
       result,
@@ -61,7 +61,7 @@ function App() {
     });
   }, [setState, state]);
 
-  const handleDepositFunds = console.log
+  const handleDepositFunds = console.log;
 
   // Fetch pokenames from API
   useEffect(() => {
@@ -73,8 +73,8 @@ function App() {
   }, []);
 
   const handleBetChange = (event: any) => {
-    setBetAmount(event.target.value)
-  }
+    setBetAmount(event.target.value);
+  };
 
   /**
    * Spin animation and wallet balance calculation
@@ -85,7 +85,9 @@ function App() {
       setTimeout(() => {
         if (state.result) {
           const won = hasWon(state.result);
-          const balance = won ? state.balance + (betAmount * config.winMultiplier) : state.balance - betAmount;
+          const balance = won
+            ? state.balance + betAmount * config.winMultiplier
+            : state.balance - betAmount;
           setState({
             ...state,
             isSpinning: false,
@@ -94,7 +96,7 @@ function App() {
         }
       }, config.animationDuration);
     }
-  }, [state.isSpinning])
+  }, [state.isSpinning]);
 
   return (
     <div className="App">
@@ -102,33 +104,30 @@ function App() {
       <div className="slot-machine">
         {!state.isSpinning && state.result && hasWon(state.result) && (
           <>
-            <ReactConfetti
-              width={width}
-              height={height}
-            />
+            <ReactConfetti width={width} height={height} />
             <div className="winner">You won!</div>
           </>
         )}
         <div className="slots-view">
           {/* Display images from results */}
-          {
-            state.result && !state.isSpinning ? state.result.map((item, index) => (
-              <div className="slot-item" key={index}>
-                <img src={images[item]} alt={item.toString()} />
-              </div>
-            )) : state.slots?.map((col, index) => (
-              <div
-                className={`slot-column ${state.isSpinning && "animating"}`}
-                key={index}
-              >
-                {col.map((item, index) => (
-                  <div className="slot-item" key={index}>
-                    <img src={images[item]} alt={item.toString()} />
-                  </div>
-                ))}
-              </div>
-            ))
-          }
+          {state.result && !state.isSpinning
+            ? state.result.map((item, index) => (
+                <div className="slot-item" key={index}>
+                  <img src={images[item]} alt={item.toString()} />
+                </div>
+              ))
+            : state.slots?.map((col, index) => (
+                <div
+                  className={`slot-column ${state.isSpinning && "animating"}`}
+                  key={index}
+                >
+                  {col.map((item, index) => (
+                    <div className="slot-item" key={index}>
+                      <img src={images[item]} alt={item.toString()} />
+                    </div>
+                  ))}
+                </div>
+              ))}
         </div>
 
         <div className="controls">
@@ -140,9 +139,13 @@ function App() {
           </div>
           <div>
             {state.balance === 0 ? (
-              <button className="deposit-funds" onClick={handleDepositFunds}>Deposit Funds</button>
+              <button className="deposit-funds" onClick={handleDepositFunds}>
+                Deposit Funds
+              </button>
             ) : (
-              <button className="spin-button" onClick={handlePlay}>Spin</button>
+              <button className="spin-button" onClick={handlePlay}>
+                Spin
+              </button>
             )}
           </div>
         </div>
