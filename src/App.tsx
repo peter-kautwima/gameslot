@@ -15,6 +15,7 @@ type TState = {
   slots?: TSlots;
   result?: TSlot[];
   isSpinning: boolean;
+  balance: number;
 };
 
 const config = {
@@ -26,6 +27,7 @@ const config = {
 function App() {
   const [state, setState] = useState<TState>({
     isSpinning: false,
+    balance: 10000
   });
 
   const [images, setImages] = useState<string[]>([]);
@@ -95,7 +97,7 @@ function App() {
         </div>
         <div className="controls">
           <div>
-            <Wallet balance={1000} />
+            <Wallet balance={state.balance} />
           </div>
           <div>
             <BetForm onChange={handleBetChange} />
