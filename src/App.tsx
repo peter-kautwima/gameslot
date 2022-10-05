@@ -69,7 +69,12 @@ function App() {
     });
   }, [setState, state]);
 
-  const handleDepositFunds = console.log;
+  const handleDepositFunds = () => {
+    setState({
+      ...state,
+      balance: state.balance + 10000,
+    });
+  };
 
   // Fetch pokenames from API
   useEffect(() => {
