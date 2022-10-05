@@ -74,6 +74,11 @@
   z-index: 10;
 }
 
+.error-msg {
+  background-color: red;
+  padding: 1rem;
+}
+
 .controls {
   margin-top: 2rem;
   display: grid;
@@ -100,6 +105,12 @@
   border: 3px solid gold;
   display: block;
   width: 100%;
+}
+
+.spin-button:disabled {
+  background: grey;
+  border-color: grey;
+  cursor: not-allowed;
 }
 
 /* animate slot column with keyframe */

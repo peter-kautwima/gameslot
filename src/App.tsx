@@ -20,11 +20,17 @@ type TState = {
   balance: number;
 };
 
+type TBetState = {
+  amount: number
+  error?: string
+}
+
 const config = {
   slotCols: 3,
   slotRows: 10,
   animationDuration: 900, // reduce this by 100ms to get the actual animation duration. CSS is 1s (1000ms)
   winMultiplier: 10,
+  minBet: 0
 };
 
 function App() {
@@ -35,7 +41,9 @@ function App() {
 
   const { width, height } = useWindowSize();
 
-  const [betAmount, setBetAmount] = useState(0);
+  const [betState, setBetState] = useState<TBetState>({
+    amount: 0,
+  });
 
   const [images, setImages] = useState<string[]>([]);
 
@@ -73,7 +81,25 @@ function App() {
   }, []);
 
   const handleBetChange = (event: any) => {
-    setBetAmount(event.target.value);
+    const amount = event.target.value;
+
+    if (amount < config.minBet) {
+      setBetState({
+        ...betState,
+        error: 'Bet amount must be greater than or equal to 0',
+      });
+    } else if (amount > state.balance) {
+      setBetState({
+        ...betState,
+        error: 'Bet amount must be less than or equal to your balance',
+      });
+    } else {
+      setBetState({
+        ...betState,
+        amount,
+        error: undefined,
+      });
+    }
   };
 
   /**
@@ -86,8 +112,8 @@ function App() {
         if (state.result) {
           const won = hasWon(state.result);
           const balance = won
-            ? state.balance + betAmount * config.winMultiplier
-            : state.balance - betAmount;
+            ? state.balance + betState.amount * config.winMultiplier
+            : state.balance - betState.amount;
           setState({
             ...state,
             isSpinning: false,
@@ -129,6 +155,9 @@ function App() {
                 </div>
               ))}
         </div>
+        {betState.error && (
+          <div className="error-msg">{betState.error}</div>
+        )}
 
         <div className="controls">
           <div>
@@ -143,7 +172,7 @@ function App() {
                 Deposit Funds
               </button>
             ) : (
-              <button className="spin-button" onClick={handlePlay}>
+              <button disabled={!!betState.error} className="spin-button" onClick={handlePlay}>
                 Spin
               </button>
             )}
