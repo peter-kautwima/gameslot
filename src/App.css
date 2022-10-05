@@ -58,6 +58,7 @@
   color: #fff;
   border-radius: 5px;
   overflow: hidden;
+  padding: 2rem;
 }
 
 .slot-item img {

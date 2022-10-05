@@ -138,8 +138,10 @@ function App() {
           {/* Display images from results */}
           {state.result && !state.isSpinning
             ? state.result.map((item, index) => (
-                <div className="slot-item" key={index}>
-                  <img src={images[item]} alt={item.toString()} />
+                <div className="slot-column" key={index}>
+                  <div className="slot-item">
+                    <img src={images[item]} alt={item.toString()} />
+                  </div>
                 </div>
               ))
             : state.slots?.map((col, index) => (
