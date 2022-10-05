@@ -12,6 +12,7 @@ import {
   hasWon,
   randomElement,
 } from "./utils";
+import pokeball from "./assets/pokeball.svg";
 
 type TState = {
   slots?: TSlots;
@@ -140,27 +141,39 @@ function App() {
           </>
         )}
         <div className="slots-view">
-          {/* Display images from results */}
-          {state.result && !state.isSpinning
-            ? state.result.map((item, index) => (
-                <div className="slot-column" key={index}>
-                  <div className="slot-item">
-                    <img src={images[item]} alt={item.toString()} />
-                  </div>
+          {
+            !state.isSpinning && !state.result ? [...Array(config.slotCols).keys()].map(col => (
+              <div className="slot-column" key={col}>
+                <div className="slot-item">
+                  <img src={pokeball} alt={`Pokeball ${col}`} />
                 </div>
-              ))
-            : state.slots?.map((col, index) => (
-                <div
-                  className={`slot-column ${state.isSpinning && "animating"}`}
-                  key={index}
-                >
-                  {col.map((item, index) => (
-                    <div className="slot-item" key={index}>
-                      <img src={images[item]} alt={item.toString()} />
-                    </div>
-                  ))}
-                </div>
-              ))}
+              </div>
+            )) : (
+              <>
+                {/* Display images from results */}
+                {state.result && !state.isSpinning
+                  ? state.result.map((item, index) => (
+                      <div className="slot-column" key={index}>
+                        <div className="slot-item">
+                          <img src={images[item]} alt={item.toString()} />
+                        </div>
+                      </div>
+                    ))
+                  : state.slots?.map((col, index) => (
+                      <div
+                        className={`slot-column ${state.isSpinning && "animating"}`}
+                        key={index}
+                      >
+                        {col.map((item, index) => (
+                          <div className="slot-item" key={index}>
+                            <img src={images[item]} alt={item.toString()} />
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+              </>
+            )
+          }
         </div>
         {betState.error && (
           <div className="error-msg">{betState.error}</div>
